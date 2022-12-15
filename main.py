@@ -1,9 +1,11 @@
+import json
 import logging
 import logging.config
 import logging.handlers
 import os
 import sys
 
+from datetime import datetime
 from dotenv import load_dotenv
 from mastodon import Mastodon
 
@@ -45,5 +47,14 @@ mastodon = Mastodon(
 me = mastodon.me()
 my_id = me.id
 account = mastodon.account(my_id)
-followers = mastodon.account_followers(my_id, None, None, None, None,)
-logger.debug(f'Follower count: {len(followers)}')
+followers = mastodon.account_followers(my_id)
+#followers = mastodon.fetch_remaining(followers)
+follower_count = len(followers)
+
+timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+""" f = open(f'data/followers-{timestamp}', "w")
+f.write("{") """
+for follower in followers:
+    logger.info(follower)
+""" f.write("}")
+f.close() """
